@@ -12,7 +12,10 @@
     <PackageId>asdfDEV.Rowdy</PackageId>
     <Authors>ShawnSeanShaun</Authors>
     <Company>asdfDEV</Company>
-    <PackageDescription>Lightweight HTTP mock server.</PackageDescription>
+    <PackageDescription>Lightweight HTTP mock server.
+
+    This package has been designed using resources from Flaticon.com
+    </PackageDescription>
     <RepositoryUrl>https://github.com/ShawnTheBeachy/rowdy</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageProjectUrl>https://github.com/ShawnTheBeachy/rowdy</PackageProjectUrl>
@@ -26,9 +29,45 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MinVer" Version="7.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="TUnit.Assertions" Version="1.33.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include=".nuget\" />
+    <Content Include="..\..\assets\nuget-package-icon.png">
+      <Link>.nuget\nuget-package-icon.png</Link>
+    </Content>
+    <Content Include="..\..\README.md">
+      <Link>.nuget\README.md</Link>
+    </Content>
   </ItemGroup>
+  <Target
+    Name="Husky"
+    AfterTargets="Restore"
+    Condition="'$(HUSKY)' != 0 and '$(IsCrossTargetingBuild)' == 'true'"
+    Inputs="..\..\.config\dotnet-tools.json"
+    Outputs="..\..\.husky\_\install.stamp"
+  >
+    <Exec
+      Command="dotnet tool restore"
+      StandardOutputImportance="Low"
+      StandardErrorImportance="High"
+    />
+    <Exec
+      Command="dotnet husky install"
+      StandardOutputImportance="Low"
+      StandardErrorImportance="High"
+      WorkingDirectory="..\.."
+    />
+    <Touch
+      Files="..\..\.husky\_\install.stamp"
+      AlwaysCreate="true"
+      Condition="Exists('..\..\.husky\_')"
+    />
+    <ItemGroup>
+      <FileWrites Include="..\..\.husky\_\install.stamp" />
+    </ItemGroup>
+  </Target>
 </Project>
