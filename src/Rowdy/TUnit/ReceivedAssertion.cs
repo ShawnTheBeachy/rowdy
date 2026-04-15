@@ -6,13 +6,12 @@ namespace Rowdy.TUnit;
 /// <summary>
 /// A TUnit assertion to assert that a <c>RowdyServer</c> received a certain number of calls.
 /// </summary>
-public sealed partial class ReceivedAssertion<T> : Assertion<T>
-    where T : IRowdyServer
+public sealed partial class ReceivedAssertion : Assertion<RowdyServer>
 {
     private readonly int _expected;
     private RequestMatcher _matcher = _ => true;
 
-    internal ReceivedAssertion(AssertionContext<T> context, int expected)
+    internal ReceivedAssertion(AssertionContext<RowdyServer> context, int expected)
         : base(context)
     {
         _expected = expected;
@@ -22,7 +21,7 @@ public sealed partial class ReceivedAssertion<T> : Assertion<T>
     /// Checks whether the assertion passes.
     /// </summary>
     /// <param name="metadata">Handled by TUnit.</param>
-    protected override Task<AssertionResult> CheckAsync(EvaluationMetadata<T> metadata)
+    protected override Task<AssertionResult> CheckAsync(EvaluationMetadata<RowdyServer> metadata)
     {
         var exception = metadata.Exception;
 
@@ -41,7 +40,7 @@ public sealed partial class ReceivedAssertion<T> : Assertion<T>
         );
     }
 
-    private int GetCount(IRowdyServer? server) =>
+    private int GetCount(RowdyServer? server) =>
         server?.Requests.Count(request => _matcher(request)) ?? 0;
 
     /// <summary>

@@ -14,9 +14,8 @@ public static class AssertionExtensions
     /// <param name="assertionSource">The Rowdy server.</param>
     /// <param name="expected">The number of calls expected to have been received.</param>
     /// <returns>A TUnit assertion.</returns>
-    public static ReceivedAssertion<T> Received<T>(
-        this IAssertionSource<T> assertionSource,
+    public static ReceivedAssertion Received(
+        this IAssertionSource<RowdyServer> assertionSource,
         int expected
-    )
-        where T : IRowdyServer => new(assertionSource.Context, expected);
+    ) => new(assertionSource.Context, expected);
 }

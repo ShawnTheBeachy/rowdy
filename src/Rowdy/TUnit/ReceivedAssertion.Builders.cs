@@ -3,14 +3,14 @@ using Rowdy.Matching;
 
 namespace Rowdy.TUnit;
 
-sealed partial class ReceivedAssertion<T>
+sealed partial class ReceivedAssertion
 {
     /// <summary>
     /// Asserts that a request path matched this path.
     /// </summary>
     /// <param name="path">The path to compare.</param>
     /// <param name="comparison">The string comparison setting to use.</param>
-    public ReceivedAssertion<T> AtPath(
+    public ReceivedAssertion AtPath(
         string path,
         StringComparison comparison = StringComparison.OrdinalIgnoreCase
     )
@@ -29,7 +29,7 @@ sealed partial class ReceivedAssertion<T>
     /// </summary>
     /// <param name="url">The URL to compare.</param>
     /// <param name="comparison">The string comparison setting to use.</param>
-    public ReceivedAssertion<T> AtUrl(
+    public ReceivedAssertion AtUrl(
         string url,
         StringComparison comparison = StringComparison.OrdinalIgnoreCase
     )
@@ -41,35 +41,35 @@ sealed partial class ReceivedAssertion<T>
     /// <summary>
     /// Asserts that a request method was equal to <c>CONNECT</c>.
     /// </summary>
-    public ReceivedAssertion<T> UsingConnect() => UsingMethod(HttpMethod.Connect);
+    public ReceivedAssertion UsingConnect() => UsingMethod(HttpMethod.Connect);
 
     /// <summary>
     /// Asserts that a request method was equal to <c>DELETE</c>.
     /// </summary>
-    public ReceivedAssertion<T> UsingDelete() => UsingMethod(HttpMethod.Delete);
+    public ReceivedAssertion UsingDelete() => UsingMethod(HttpMethod.Delete);
 
     /// <summary>
     /// Asserts that a request method was equal to <c>GET</c>.
     /// </summary>
-    public ReceivedAssertion<T> UsingGet() => UsingMethod(HttpMethod.Get);
+    public ReceivedAssertion UsingGet() => UsingMethod(HttpMethod.Get);
 
     /// <summary>
     /// Asserts that a request method was equal to <c>HEAD</c>.
     /// </summary>
-    public ReceivedAssertion<T> UsingHead() => UsingMethod(HttpMethod.Head);
+    public ReceivedAssertion UsingHead() => UsingMethod(HttpMethod.Head);
 
     /// <summary>
     /// Asserts that a request method was equal to this method.
     /// <param name="method">The method to compare.</param>
     /// </summary>
-    public ReceivedAssertion<T> UsingMethod(HttpMethod method) => UsingMethod(method.Method);
+    public ReceivedAssertion UsingMethod(HttpMethod method) => UsingMethod(method.Method);
 
     /// <summary>
     /// Asserts that a request method was equal to this method.
     /// <param name="method">The method to compare.</param>
     /// <param name="comparison">The string comparison setting to use.</param>
     /// </summary>
-    public ReceivedAssertion<T> UsingMethod(
+    public ReceivedAssertion UsingMethod(
         string method,
         StringComparison comparison = StringComparison.OrdinalIgnoreCase
     )
@@ -81,34 +81,34 @@ sealed partial class ReceivedAssertion<T>
     /// <summary>
     /// Asserts that a request method was equal to <c>OPTIONS</c>.
     /// </summary>
-    public ReceivedAssertion<T> UsingOptions() => UsingMethod(HttpMethod.Options);
+    public ReceivedAssertion UsingOptions() => UsingMethod(HttpMethod.Options);
 
     /// <summary>
     /// Asserts that a request method was equal to <c>PATCH</c>.
     /// </summary>
-    public ReceivedAssertion<T> UsingPatch() => UsingMethod(HttpMethod.Patch);
+    public ReceivedAssertion UsingPatch() => UsingMethod(HttpMethod.Patch);
 
     /// <summary>
     /// Asserts that a request method was equal to <c>POST</c>.
     /// </summary>
-    public ReceivedAssertion<T> UsingPost() => UsingMethod(HttpMethod.Post);
+    public ReceivedAssertion UsingPost() => UsingMethod(HttpMethod.Post);
 
     /// <summary>
     /// Asserts that a request method was equal to <c>PUT</c>.
     /// </summary>
-    public ReceivedAssertion<T> UsingPut() => UsingMethod(HttpMethod.Put);
+    public ReceivedAssertion UsingPut() => UsingMethod(HttpMethod.Put);
 
     /// <summary>
     /// Asserts that a request method was equal to <c>TRACE</c>.
     /// </summary>
-    public ReceivedAssertion<T> UsingTrace() => UsingMethod(HttpMethod.Trace);
+    public ReceivedAssertion UsingTrace() => UsingMethod(HttpMethod.Trace);
 
     /// <summary>
     /// Asserts that a request body was equal to this body.
     /// <param name="body">The body to compare.</param>
     /// <param name="comparison">The string comparison setting to use.</param>
     /// </summary>
-    public ReceivedAssertion<T> WithBody(
+    public ReceivedAssertion WithBody(
         string? body,
         StringComparison comparison = StringComparison.Ordinal
     )
@@ -125,7 +125,7 @@ sealed partial class ReceivedAssertion<T>
     /// Asserts that a request body is matched by this matcher.
     /// <param name="matcher">The string matcher to use..</param>
     /// </summary>
-    public ReceivedAssertion<T> WithBody(IStringMatcher matcher)
+    public ReceivedAssertion WithBody(IStringMatcher matcher)
     {
         _matcher += request =>
         {

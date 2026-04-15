@@ -12,6 +12,7 @@ public sealed class RowdyServerTests
         // Arrange.
         var sut = new RowdyServer();
         sut.MapGet("/", TypedResults.Ok);
+        sut.Start();
 
         // Act.
         var client = sut.CreateClient();
@@ -27,6 +28,7 @@ public sealed class RowdyServerTests
         // Arrange.
         var sut = new RowdyServer();
         sut.MapGet("/", TypedResults.Ok);
+        sut.Start();
         var client = new HttpClient { BaseAddress = new Uri(sut.Url) };
 
         // Act.

@@ -11,10 +11,11 @@ namespace Rowdy;
 /// <summary>
 /// A server which will listen on a TCP port for requests.
 /// </summary>
-public class RowdyServer : IRowdyServer, IAsyncDisposable
+public class RowdyServer : IEndpointRouteBuilder, IAsyncDisposable
 {
     private readonly WebApplication _app;
-    private bool _isDisposed;
+    private bool _isDisposed,
+        _isStarted;
     private readonly List<(HttpRequest, HttpResponse)> _requests = [];
 
     ICollection<EndpointDataSource> IEndpointRouteBuilder.DataSources =>
@@ -57,7 +58,6 @@ public class RowdyServer : IRowdyServer, IAsyncDisposable
 
         _app = builder.Build();
         ApplyMiddleware();
-        Start();
     }
 
     IApplicationBuilder IEndpointRouteBuilder.CreateApplicationBuilder() => null!;
@@ -158,5 +158,15 @@ public class RowdyServer : IRowdyServer, IAsyncDisposable
     /// </summary>
     public void ClearRequests() => _requests.Clear();
 
-    private void Start() => ThreadPool.QueueUserWorkItem(_ => _app.Run());
+    /// <summary>
+    /// Starts the server.
+    /// </summary>
+    public void Start()
+    {
+        if (_isStarted)
+            return;
+
+        _isStarted = true;
+        ThreadPool.QueueUserWorkItem(_ => _app.Run());
+    }
 }
