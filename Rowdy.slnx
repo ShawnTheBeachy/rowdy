@@ -2,5 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/Rowdy/Rowdy.csproj" />
   </Folder>
-  <Folder Name="/test/" />
+  <Folder Name="/test/">
+    <Project Path="test/Rowdy.Tests.Unit/Rowdy.Tests.Unit.csproj" />
+  </Folder>
 </Solution>
