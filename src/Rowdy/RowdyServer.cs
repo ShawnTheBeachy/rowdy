@@ -11,7 +11,7 @@ namespace Rowdy;
 /// <summary>
 /// A server which will listen on a TCP port for requests.
 /// </summary>
-public class RowdyServer : IRowdyServer, IEndpointRouteBuilder, IAsyncDisposable
+public class RowdyServer : IRowdyServer, IAsyncDisposable
 {
     private readonly WebApplication _app;
     private bool _isDisposed;
