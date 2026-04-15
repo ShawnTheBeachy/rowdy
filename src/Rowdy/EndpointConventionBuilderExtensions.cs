@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace Rowdy;
 
+/// <summary>
+/// Extension methods to extend <c>IEndpointConventionBuilder</c> functionality.
+/// </summary>
 public static class EndpointConventionBuilderExtensions
 {
     /// <summary>

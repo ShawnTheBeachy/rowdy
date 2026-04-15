@@ -8,7 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Rowdy;
 
-public sealed class RowdyServer : IRowdyServer, IEndpointRouteBuilder, IAsyncDisposable
+/// <summary>
+/// A server which will listen on a TCP port for requests.
+/// </summary>
+public class RowdyServer : IRowdyServer, IEndpointRouteBuilder, IAsyncDisposable
 {
     private readonly WebApplication _app;
     private bool _isDisposed;
@@ -21,17 +24,31 @@ public sealed class RowdyServer : IRowdyServer, IEndpointRouteBuilder, IAsyncDis
 
     IServiceProvider IEndpointRouteBuilder.ServiceProvider => _app.Services;
 
+    /// <summary>
+    /// The TCP port on which the server is listening.
+    /// </summary>
     public int Port { get; }
+
+    /// <summary>
+    /// A log list of received requests and responses.
+    /// </summary>
     public IReadOnlyList<(HttpRequest Request, HttpResponse Response)> Requests => _requests;
+
+    /// <summary>
+    /// The full URL at which the server is listening.
+    /// </summary>
     public string Url { get; }
 
+    /// <summary>
+    /// Creates a new <c>RowdyServer</c> and starts listening on a TCP port.
+    /// </summary>
+    /// <param name="port">The TCP port on which to listen.</param>
+    /// <param name="useHttps">Whether to use HTTPS. HTTPS redirection will not be enabled even if this is set to <c>true</c>.</param>
+    /// <param name="interface">The network interface on which to listen.</param>
     public RowdyServer(int? port = null, bool useHttps = false, string @interface = "localhost")
-        : this(port ?? GetOpenTcpPort(), useHttps, @interface) { }
-
-    public RowdyServer(int port, bool useHttps, string @interface)
     {
         var scheme = useHttps ? "https" : "http";
-        Port = port;
+        Port = port ?? GetOpenTcpPort();
         Url = $"{scheme}://{@interface}:{Port}";
         var builder = CreateBuilder();
 
@@ -93,6 +110,9 @@ public sealed class RowdyServer : IRowdyServer, IEndpointRouteBuilder, IAsyncDis
     public HttpClient CreateClient() =>
         _app.Services.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName);
 
+    /// <summary>
+    /// Stops and disposes the server. Also clears all request logs.
+    /// </summary>
     public async ValueTask DisposeAsync()
     {
         if (_isDisposed)
@@ -102,6 +122,7 @@ public sealed class RowdyServer : IRowdyServer, IEndpointRouteBuilder, IAsyncDis
         await _app.StopAsync();
         await _app.DisposeAsync();
         _requests.Clear();
+        GC.SuppressFinalize(this);
     }
 
     [Pure]

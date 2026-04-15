@@ -3,10 +3,13 @@ using TUnit.Assertions.Core;
 
 namespace Rowdy.TUnit;
 
+/// <summary>
+/// A TUnit assertion to assert that a <c>RowdyServer</c> received a certain number of calls.
+/// </summary>
 public sealed partial class ReceivedAssertion<T> : Assertion<T>
     where T : IRowdyServer
 {
-    private int _expected;
+    private readonly int _expected;
     private RequestMatcher _matcher = _ => true;
 
     internal ReceivedAssertion(AssertionContext<T> context, int expected)
@@ -15,6 +18,10 @@ public sealed partial class ReceivedAssertion<T> : Assertion<T>
         _expected = expected;
     }
 
+    /// <summary>
+    /// Checks whether the assertion passes.
+    /// </summary>
+    /// <param name="metadata">Handled by TUnit.</param>
     protected override Task<AssertionResult> CheckAsync(EvaluationMetadata<T> metadata)
     {
         var exception = metadata.Exception;
@@ -37,6 +44,9 @@ public sealed partial class ReceivedAssertion<T> : Assertion<T>
     private int GetCount(IRowdyServer? server) =>
         server?.Requests.Count(request => _matcher(request)) ?? 0;
 
+    /// <summary>
+    /// Gets the expectation message.
+    /// </summary>
     protected override string GetExpectation() => $"to have received {_expected} matching requests";
 
     private delegate bool RequestMatcher((HttpRequest Request, HttpResponse Response) request);

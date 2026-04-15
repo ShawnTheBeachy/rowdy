@@ -7,7 +7,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Deterministic>true</Deterministic>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <WarningsAsErrors>CS1591</WarningsAsErrors>
     <EnablePackageValidation>true</EnablePackageValidation>
     <PackageId>asdfDEV.Rowdy</PackageId>
     <Authors>ShawnSeanShaun</Authors>
