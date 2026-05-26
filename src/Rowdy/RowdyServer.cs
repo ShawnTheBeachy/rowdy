@@ -133,7 +133,7 @@ public class RowdyServer : IEndpointRouteBuilder, IAsyncDisposable
 
         do
         {
-            port = Random.Shared.Next(5_000, 9_999);
+            port = Random.Shared.Next(5_000, 8_999);
         } while (ipProps.GetActiveTcpListeners().Any(x => x.Port == port));
 
         return port;
